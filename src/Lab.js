@@ -11,7 +11,7 @@ class Lab {
 
 	loadLab(callback){
 		let loader = new GLTFLoader().setPath('./assets/models/')
-		loader.load('chemical_synthesis_laboratory.glb', (gltf) => {
+		loader.load('lab.glb', (gltf) => {
 			//callback function that gets called when the model is loaded
 			this.lab = gltf.scene
 			this.lab.name = "Lab"
