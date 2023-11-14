@@ -2,6 +2,18 @@ import * as THREE from 'three'
 import { Lab } 	from './Lab.js'
 import { Person } from './Person.js'
 
+'use strict';
+
+const FIELD_OF_VIEW = 70;
+const NEAR_CLIPPING_PLANE = 0.001;
+const FAR_CLIPPING_PLANE = 10000;
+const HEMISPHERE_LIGHT_COLOR = 0x9999FF;
+const HEMISPHERE_LIGHT_GROUND_COLOR = 0xFFFF99;
+const HEMISPHERE_LIGHT_INTENSITY = 1;
+const DIRECTIONAL_LIGHT_COLOR = 0xffffff;
+const DIRECTIONAL_LIGHT_INTENSITY = 3;
+const DIRECTIONAL_LIGHT_POSITION_Y = 2.7;
+
 let container
 let camera
 let scene
@@ -28,30 +40,45 @@ function init(){
 	console.log("hello world")
 	container = document.getElementById("threeJS")
 	
-	scene = new THREE.Scene()
-	scene.background = new THREE.Color(0xAAAAFF)
+	if (!container) {
+        console.error('Could not find element with id "threeJS".');
+        return;
+    }
 
-	camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.001, 10000)
-	scene.add(camera)
-
-	light = new THREE.HemisphereLight(0x9999FF, 0xFFFF99, 1)
-	scene.add(light)
-
-	directionalLight = new THREE.DirectionalLight(0xffffff,3)
-	directionalLight.position.y = 2.7
-	scene.add(directionalLight)
-
-	renderer = new THREE.WebGLRenderer()
-	renderer.setSize(window.innerWidth, window.innerHeight)
-
-	// html body -> div container -> DOM (document object model) element of the renderer
-	container.appendChild(renderer.domElement)
+    initScene();
+    initCamera();
+    initLights();
+    initRenderer();
 
 	window.addEventListener('resize', onWindowResize)
 	onWindowResize()
 
 }
+function initScene() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xAAAAFF);
+}
 
+function initCamera() {
+    camera = new THREE.PerspectiveCamera(FIELD_OF_VIEW, window.innerWidth / window.innerHeight, NEAR_CLIPPING_PLANE, FAR_CLIPPING_PLANE);
+    scene.add(camera);
+}
+
+function initLights() {
+    light = new THREE.HemisphereLight(HEMISPHERE_LIGHT_COLOR, HEMISPHERE_LIGHT_GROUND_COLOR, HEMISPHERE_LIGHT_INTENSITY);
+    scene.add(light);
+
+    directionalLight = new THREE.DirectionalLight(DIRECTIONAL_LIGHT_COLOR, DIRECTIONAL_LIGHT_INTENSITY);
+    directionalLight.position.y = DIRECTIONAL_LIGHT_POSITION_Y;
+    scene.add(directionalLight);
+}
+
+
+function initRenderer() {
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+}
 
 
 function onLabLoaded(){
@@ -59,18 +86,18 @@ function onLabLoaded(){
 }
 
 
-function animate(){
-	requestAnimationFrame(animate)
+function animate() {
+    requestAnimationFrame(animate);
+    person.animate();
+    updateCameraPosition();
+    render();
+}
 
-	person.animate()
-
-	camera.position.x -= person.dx/100
-	camera.position.z -= person.dz/100
-
-	camera.position.y = 1.6
-
-	camera.rotation.y = person.direction
-	render()
+function updateCameraPosition() {
+    camera.position.x -= person.dx / 100;
+    camera.position.z -= person.dz / 100;
+    camera.position.y = 1.6;
+    camera.rotation.y = person.direction;
 }
 
 function render(){
@@ -83,6 +110,9 @@ function onWindowResize(){
 	renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
+function handleError(error) {
+    console.error('An error occurred:', error);
+}
 
 
 
