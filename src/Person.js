@@ -18,6 +18,7 @@ const keyMappings = {
 	[ARROW_DOWN]: 'WALKING_BACKWARD',
 	[KEY_D]: 'ROTATE_LEFT',
 	[ARROW_RIGHT]: 'ROTATE_LEFT'
+	
 };
 
 

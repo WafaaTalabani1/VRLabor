@@ -3,7 +3,6 @@ import { Lab } 	from './Lab.js'
 import { Person } from './Person.js'
 
 'use strict';
-
 const FIELD_OF_VIEW = 70;
 const NEAR_CLIPPING_PLANE = 0.001;
 const FAR_CLIPPING_PLANE = 10000;
@@ -40,7 +39,7 @@ function init(){
 	console.log("hello world")
 	container = document.getElementById("threeJS")
 	
-	if (!container) {
+	 if (!container) {
         console.error('Could not find element with id "threeJS".');
         return;
     }
@@ -60,7 +59,9 @@ function initScene() {
 }
 
 function initCamera() {
+    // Position the camera further away
     camera = new THREE.PerspectiveCamera(FIELD_OF_VIEW, window.innerWidth / window.innerHeight, NEAR_CLIPPING_PLANE, FAR_CLIPPING_PLANE);
+
     scene.add(camera);
 }
 
@@ -70,19 +71,35 @@ function initLights() {
 
     directionalLight = new THREE.DirectionalLight(DIRECTIONAL_LIGHT_COLOR, DIRECTIONAL_LIGHT_INTENSITY);
     directionalLight.position.y = DIRECTIONAL_LIGHT_POSITION_Y;
+
+    // Enable shadow casting on the directional light
+    directionalLight.castShadow = true;  
     scene.add(directionalLight);
 }
 
 
 function initRenderer() {
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ antialias: true }); //antialiasing for smoother output
+    renderer.setPixelRatio(window.devicePixelRatio); // For HiDPI devices to prevent bluring output canvas
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true; // Enable shadow mapping
+    //renderer.shadowMap.type = THREE.PCFSoftShadowMap; // the shadow type
+
     container.appendChild(renderer.domElement);
 }
 
 
 function onLabLoaded(){
-	scene.add(lab.getLab())
+	//scene.add(lab.getLab())
+    let labModel = lab.getLab();
+    // Enable shadow casting on the lab
+    labModel.traverse(function(node) {
+        if (node instanceof THREE.Mesh) {
+            node.castShadow = true;
+            node.receiveShadow = true;
+        }
+    });
+    scene.add(labModel);
 }
 
 
@@ -110,9 +127,6 @@ function onWindowResize(){
 	renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-function handleError(error) {
-    console.error('An error occurred:', error);
-}
 
 
 
