@@ -1,0 +1,96 @@
+{"objects":[
+	{
+		"name": "walls",
+		"isExcludedFromPicking": true		
+	},
+	{
+		"name": "drawer",
+		"isManipulable": true
+	},
+	{
+		"name": "keyboard",
+		"isPickable": true,
+		"inventory":{
+			"position":{
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"rotation":{
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": 0.01
+		}
+	},
+	{
+		"name": "fax_sorter",
+		"isPickable": true,
+		"inventory":{
+			"position":{
+				"x":0,
+				"y":0,
+				"z":0
+			},
+			"rotation":{
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": 0.01
+		}
+	},
+	{
+		"name": "microscope",
+		"isPickable": true,
+		"inventory":{
+			"position":{
+				"x":0,
+				"y":0,
+				"z":0
+			},
+			"rotation":{
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": 0.02
+		}
+	},
+    {
+      "name": "towels",
+      "isPickable": true,
+      "inventory": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": 0.01
+      }
+    },
+    {
+      "name": "cleaning_spray",
+      "isPickable": true,
+      "inventory": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": 0.01
+      }
+    }
+
+]}
