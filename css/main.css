@@ -7,3 +7,19 @@ body {
 	top: 0px;
 	left: 0px;
 }
+
+#object-name {
+    display: none; /* Initially hidden */
+    position: absolute;
+    pointer-events: none; /* Ensures it doesn't interfere with 3D scene interactions */
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    z-index: 100; /* Ensures it's above the canvas */
+}
+

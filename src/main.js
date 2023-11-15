@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { Lab } 	from './Lab.js'
 import { Person } from './Person.js'
+import Explorer from './Explorer.js';
 
 'use strict';
 const FIELD_OF_VIEW = 70;
@@ -21,6 +22,7 @@ let directionalLight
 let renderer
 let lab
 let person
+let explorer
 
 
 init()
@@ -48,6 +50,7 @@ function init(){
     initCamera();
     initLights();
     initRenderer();
+    explorer = new Explorer(scene, camera, renderer);
 
 	window.addEventListener('resize', onWindowResize)
 	onWindowResize()
@@ -61,7 +64,7 @@ function initScene() {
 function initCamera() {
     // Position the camera further away
     camera = new THREE.PerspectiveCamera(FIELD_OF_VIEW, window.innerWidth / window.innerHeight, NEAR_CLIPPING_PLANE, FAR_CLIPPING_PLANE);
-
+    camera.rotation.order = 'YXZ'; 
     scene.add(camera);
 }
 
@@ -83,7 +86,7 @@ function initRenderer() {
     renderer.setPixelRatio(window.devicePixelRatio); // For HiDPI devices to prevent bluring output canvas
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true; // Enable shadow mapping
-    //renderer.shadowMap.type = THREE.PCFSoftShadowMap; // the shadow type
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap; // the shadow type
 
     container.appendChild(renderer.domElement);
 }
@@ -107,6 +110,7 @@ function animate() {
     requestAnimationFrame(animate);
     person.animate();
     updateCameraPosition();
+    explorer.updateRaycasterAndCheckIntersect();
     render();
 }
 
