@@ -18,9 +18,21 @@
 	<body>
 
 
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./lib/three.js-master/build/three.module.js",
+					"three/addons/": "./lib/three.js-master/examples/jsm/"
+				}
+			}
+		</script>
+
 		<script type="module">
+
 			import * as THREE from 'three';
-			import Stats from 'three/addons/libs/stats.module.js';
+
+			import Stats from 'three/addons/libs/stats.module.js'
+
 			let container, stats;
 
 			let camera, scene, raycaster, renderer;
@@ -104,12 +116,9 @@
 
 			}
 
-			//
-
+	
 			function animate() {
-
 				requestAnimationFrame( animate );
-
 				render();
 				stats.update();
 

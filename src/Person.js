@@ -1,26 +1,4 @@
 
-
-const KEY_W = 87;
-const KEY_A = 65;
-const KEY_S = 83;
-const KEY_D = 68;
-const ARROW_UP = 38;
-const ARROW_LEFT = 37;
-const ARROW_DOWN = 40;
-const ARROW_RIGHT = 39;
-
-const keyMappings = {
-	[KEY_W]: 'WALKING_FORWARD',
-	[ARROW_UP]: 'WALKING_FORWARD',
-	[KEY_A]: 'ROTATE_RIGHT',
-	[ARROW_LEFT]: 'ROTATE_RIGHT',
-	[KEY_S]: 'WALKING_BACKWARD',
-	[ARROW_DOWN]: 'WALKING_BACKWARD',
-	[KEY_D]: 'ROTATE_LEFT',
-	[ARROW_RIGHT]: 'ROTATE_LEFT'
-};
-
-
 class Person{
 	
 	constructor(){
@@ -42,24 +20,42 @@ class Person{
 		this.WALKING_NONE = 0
 		this.walking = this.WALKING_NONE
 
+
+
 		this.dx = 0
 		this.dz = 0
-		this.handleKey = this.handleKey.bind(this); // Bindung von `this` an die Funktion
 
-        document.addEventListener('keydown', event => this.handleKey(event, true));
-        document.addEventListener('keyup', event => this.handleKey(event, false));
-    }
 
-    handleKey(event, isKeyDown) {
-        console.log(isKeyDown ? "keydown" : "keyup", event.keyCode);
+		document.addEventListener('keydown', () => {
+			console.log("keydown",event.keyCode)
+			if( (event.keyCode == 87) || (event.keyCode == 38) ){
+				this.walking = this.WALKING_FORWARD
+			}else if((event.keyCode == 65) || (event.keyCode == 37) ){
+				this.rotate = this.ROTATE_RIGHT
+			}else if((event.keyCode == 83) || (event.keyCode == 40) ){
+				this.walking = this.WALKING_BACKWARD
+			}else if((event.keyCode == 68) || (event.keyCode == 39) ){
+				this.rotate = this.ROTATE_LEFT
+			}else if(event.keyCode == 81){
+			}else if(event.keyCode == 69){
+			}
 
-        if (keyMappings[event.keyCode]) {
-            if (keyMappings[event.keyCode].startsWith('WALKING')) {
-                this.walking = isKeyDown ? this[keyMappings[event.keyCode]] : this.WALKING_NONE;
-            } else if (keyMappings[event.keyCode].startsWith('ROTATE')) {
-                this.rotate = isKeyDown ? this[keyMappings[event.keyCode]] : this.ROTATE_NONE;
-            }
-        }
+		})
+
+		document.addEventListener('keyup', () => {
+			console.log("keyup")
+			if( (event.keyCode == 87) || (event.keyCode == 38) ){
+				this.walking = this.WALKING_NONE
+			}else if((event.keyCode == 65) || (event.keyCode == 37) ){
+				this.rotate = this.ROTATE_NONE
+			}else if((event.keyCode == 83) || (event.keyCode == 40) ){
+				this.walking = this.WALKING_NONE
+			}else if((event.keyCode == 68) || (event.keyCode == 39) ){
+				this.rotate = this.ROTATE_NONE
+			}else if(event.keyCode == 81){
+			}else if(event.keyCode == 69){
+			}
+		})
 
 	}
 
@@ -69,6 +65,7 @@ class Person{
 		}else if(this.rotate == this.ROTATE_RIGHT){
 			this.direction += this.rotationSpeed
 		}
+
 		if(this.walking == this.WALKING_FORWARD){
 			this.speed = this.speedMax
 			this.dx = Math.sin(this.direction) * this.speed
@@ -83,6 +80,9 @@ class Person{
 			this.dz = 0
 		}
 	}
+
+
+
 }
 
 export { Person }
