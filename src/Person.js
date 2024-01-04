@@ -65,20 +65,20 @@ class Person{
 	}
 
 	animate(){
-		if(this.rotate == this.ROTATE_LEFT){
+		if(this.rotate === this.ROTATE_LEFT){
 			this.direction -= this.rotationSpeed
-		}else if(this.rotate == this.ROTATE_RIGHT){
+		}else if(this.rotate === this.ROTATE_RIGHT){
 			this.direction += this.rotationSpeed
 		}
-		if(this.walking == this.WALKING_FORWARD){
+		if(this.walking === this.WALKING_FORWARD){
 			this.speed = this.speedMax
 			this.dx = Math.sin(this.direction) * this.speed
 			this.dz = Math.cos(this.direction) * this.speed
-		}else if(this.walking == this.WALKING_BACKWARD){
+		}else if(this.walking === this.WALKING_BACKWARD){
 			this.speed = this.speedMax
 			this.dx = Math.sin(this.direction) * this.speed *-1
 			this.dz = Math.cos(this.direction) * this.speed *-1
-		}else if(this.walking == this.WALKING_NONE){
+		}else if(this.walking === this.WALKING_NONE){
 			this.speed = 0
 			this.dx = 0
 			this.dz = 0

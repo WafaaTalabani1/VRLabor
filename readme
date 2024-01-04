@@ -1,0 +1,54 @@
+Überblick
+Das interaktive 3D-Labor ist eine detailreiche und interaktive Webanwendung, die auf Three.js basiert.
+Sie simuliert ein realistisches Laborumfeld, in dem Benutzer verschiedene Laborelemente und -einrichtungen erkunden und interagieren können.
+Diese Anwendung ist ideal für Demonstration von Laborausrüstung oder als interaktive 3D-Umgebung.
+
+Hauptmerkmale
+
+Realistische 3D-Modelle: Laboreinrichtungen wie Mikroskope, Stühle, Ethanol-Sprays, Schubladen und Kühlschränke sind detailliert modelliert.
+Interaktive Objektmanipulation: Benutzer können Objekte bewegen, öffnen, schließen und mit ihnen interagieren.
+Dynamische Objektnamen-Anzeige: Beim Überfahren von Objekten mit der Maus werden deren Namen angezeigt.
+Anpassbare Perspektiven: Freie Navigation und Kamerasteuerung für eine umfassende Laborerkundung.
+
+
+Spezifische Objekte und Interaktionen
+
+Mikroskope: Durch Anklicken kann der Benutzer einen Blick durch das Mikroskop werfen und bei drücken die taste R kann der Benurtzer zur normalen perspektive zurückkehren.
+Ethanol-Spray und Stühle: Können angeklickt und an einen anderen Ort bewegt werden.
+Schubladen und Kühlschrank: Lassen sich durch Klicken öffnen und schließen.
+Objektnamen-Anzeige: Beim Überfahren mit der Maus werden die Namen der Objekte eingeblendet.
+
+Tastatur- und Maussteuerung
+
+Bewegung: W,A,S,D oder Pfeiltasten zur Navigation im Raum.
+Kamera-Steuerung: Mausbewegung, um die Perspektive zu ändern.
+
+Technischer Aufbau
+
+Three.js: Für 3D-Rendering und Animation.
+HTML5/CSS3: Für Struktur und Design.
+JavaScript: Für Logik und Event-Handling.
+
+Setup und Installation
+
+MAMP Installation:
+Installieren Sie MAMP von der offiziellen Website.
+Starten Sie MAMP und richten Sie einen lokalen Server ein.
+Projekt Setup:
+Klonen Sie das Repository in den htdocs-Ordner von MAMP:
+git clone https://github.com/WafaaTalabani1/VRLabor.git
+Starten Sie MAMP und navigieren Sie in Ihrem Browser zur entsprechenden lokalen URL (z.B. http://localhost/VRLabor).
+
+Projektstruktur
+src/: Enthält JavaScript-Module wie Lab.js, Person.js, Inventory.js und Explorer.js.
+css/: Stildefinitionen für die Benutzeroberfläche.
+assets/: 3D-Modelle und Texturen.
+index.html: Haupt-HTML-Datei.
+
+Mitwirkende
+Wafaa Talabani
+Glory Adam Temu-Nduwayezu
+Greta Berdynaj
+Ekaterina Kopyl
+Fakhreddine Kenbi
+

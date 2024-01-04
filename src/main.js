@@ -1,7 +1,11 @@
 import * as THREE from 'three'
-import { Lab } 	from './Lab.js'
-import { Person } from './Person.js'
-import Explorer from './Explorer.js';
+import {Lab} from './Lab.js'
+import {Person} from './Person.js'
+import Explorer from './Explorer.js'
+import {OutlinePass} from '../lib/three.js-master/examples/jsm/postprocessing/OutlinePass.js'
+import {EffectComposer} from '../lib/three.js-master/examples/jsm/postprocessing/EffectComposer.js'
+import {RenderPass} from '../lib/three.js-master/examples/jsm/postprocessing/RenderPass.js';
+import {Inventory} from './Inventory.js';
 
 'use strict';
 const FIELD_OF_VIEW = 70;
@@ -23,18 +27,28 @@ let renderer
 let lab
 let person
 let explorer
+let raycaster
+let pointer
+let composer
+let outlinePass
+let inventory
 
 
-init()
-initObjects()
-animate()
+loadObjects()
 
+function loadObjects(){
 
+		init()
+		initObjects()
+		animate()
+
+}
 
 function initObjects(){
 	lab = new Lab()
 	lab.loadLab(onLabLoaded)
 	person  = new Person()
+    
 }
 
 function init(){
@@ -51,11 +65,24 @@ function init(){
     initLights();
     initRenderer();
     explorer = new Explorer(scene, camera, renderer);
-
+    raycaster = new THREE.Raycaster()
+	pointer = new THREE.Vector2()
+    	// html body -> div container -> DOM (document object model) element of the renderer
+	container.appendChild(renderer.domElement)
+    inventory = new Inventory();
+    camera.add(inventory.group);
+	document.addEventListener('mousemove', explorer.onMouseMove, false)
+	document.addEventListener('mousedown', explorer.onMouseDown, false)
+	window.addEventListener('keydown', (event) => {
+		if (event.key === 'r') {
+			explorer.returnToNormalView();
+		}
+	});
 	window.addEventListener('resize', onWindowResize)
 	onWindowResize()
 
 }
+
 function initScene() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xAAAAFF);
@@ -89,6 +116,25 @@ function initRenderer() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap; // the shadow type
 
     container.appendChild(renderer.domElement);
+
+    composer = new EffectComposer(renderer);
+
+    let renderPass = new RenderPass(scene, camera);
+    composer.addPass(renderPass);
+
+    outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth,window.innerHeight), scene, camera);
+    outlinePass.edgeStrength = 6;
+    outlinePass.edgeGlow = 0;
+    outlinePass.edgeThickness = 1;
+    outlinePass.pulsePeriod = 3;
+    outlinePass.visibleEdgeColor.set('#FF5733');
+    outlinePass.hiddenEdgeColor.set('#33FF57');
+
+    outlinePass.enabled = true;
+
+    composer.addPass(outlinePass);
+
+
 }
 
 
@@ -104,15 +150,23 @@ function onLabLoaded(){
     });
     scene.add(labModel);
 }
-
-
 function animate() {
     requestAnimationFrame(animate);
     person.animate();
     updateCameraPosition();
     explorer.updateRaycasterAndCheckIntersect();
+    if(lab.getLab()){
+        lab.getLab().traverse((child)=>{
+            if(child.userData.isAnimate){
+                if(child.userData.zTo){
+                    child.position.z += (child.userData.zTo - child.position.z) * 0.1
+                }
+            }
+        })
+    }
     render();
 }
+
 
 function updateCameraPosition() {
     camera.position.x -= person.dx / 100;
@@ -125,10 +179,23 @@ function render(){
 	renderer.render(scene, camera)
 }
 
+
+function deselectObjects(){
+	outlinePass.selectedObjects = []
+}
+
+
+
+function raycast(isMouseDown){
+	raycaster.setFromCamera(pointer, camera)
+}
+  
+
 function onWindowResize(){
 	camera.aspect = window.innerWidth/window.innerHeight
 	camera.updateProjectionMatrix()
 	renderer.setSize(window.innerWidth, window.innerHeight)
+
 }
 
 
